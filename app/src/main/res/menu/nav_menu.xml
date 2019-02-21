@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_historyToday"
+            android:icon="@drawable/history"
+            android:title="历史上的今天"/>
+        <item
+            android:id="@+id/nav_book"
+            android:icon="@drawable/book"
+            android:title="成语查询" />
+        <item
+            android:id="@+id/nav_smiling"
+            android:icon="@drawable/smiling"
+            android:title="笑话" />
+        <item
+            android:id="@+id/nav_robot"
+            android:icon="@drawable/weather"
+            android:title="智能机器人" />
+    </group>
+</menu>

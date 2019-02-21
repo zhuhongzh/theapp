@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_input"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="3"
+            android:hint="请输入你想要查询的成语" />
+
+        <Button
+            android:id="@+id/btn_find"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="查询" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_chinese"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:text="千载难逢"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/txt_pinyin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:text="qianzainanfeng"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="语法"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_grammar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text=" 偏正式；作谓语、定语、分句；含褒义"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:text="解释"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_explain"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="一千年里也难碰到一次。形容机会极其难得。"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:text="来源"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/txt_from"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=" 《南齐书·瘐杲之传》：“臣以凡庸，谬徼（侥）昌运，奖擢之厚，千载难逢。”唐·韩愈《潮州刺史谢上表》：“当此之际，所谓千载一时不可逢之嘉会。"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:text="例子"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_example"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:text=" 天下竟有如此奇事！怪不得叔叔说是我们闺中～际遇，真是旷古少有。 清·李汝珍《镜花缘》第四十一回"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="同义词"
+                android:textSize="35sp" />
+
+            <ListView
+                android:id="@+id/synonyms_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></ListView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="反义词"
+                android:textSize="35sp" />
+
+            <ListView
+                android:id="@+id/antonyms_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></ListView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
