@@ -498,9 +498,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
                 idiom = Utility.handleIdiom(responseText);
-                idiom.setIdiom(editText.getText().toString());
-                idiom.save();
                 if (idiom.getReason().equals("success")) {
+                    idiom.setIdiom(editText.getText().toString());
+                    idiom.save();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
