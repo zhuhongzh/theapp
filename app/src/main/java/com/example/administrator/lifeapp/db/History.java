@@ -1,8 +1,10 @@
 package com.example.administrator.lifeapp.db;
 
 
-public class History {
-    private String id;
+import org.litepal.crud.DataSupport;
+
+public class History extends DataSupport {
+    private String historyId;
     private String title;
     private String picture;
     private int year;
@@ -20,11 +22,11 @@ public class History {
     }
 
     public String getId() {
-        return id;
+        return historyId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.historyId = id;
     }
 
     public String getTitle() {

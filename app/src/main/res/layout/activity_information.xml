@@ -5,30 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InformationActivity"
-    android:orientation="vertical">
+    android:background="@drawable/hisback"
+    android:orientation="vertical"
+    tools:context=".InformationActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <TextView
-        android:id="@+id/title_detial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="反法联盟各参加国在奥地利首都维也纳召开会议"
-        android:textSize="25sp"
-        android:gravity="center">
-    </TextView>
-    <TextView
-        android:id="@+id/content_detial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="在205年前的今天，1814年10月1日 (农历八月十八)，反法联盟各参加国在奥地利首都维也纳召开会议。\n1814年10月1日，反法联盟各参加国在奥地利首都维也纳召开会议，商讨处理战后事宜，会议到1815年6月9日结束。参加会议的有俄、普、奥三国皇帝以及各国首相和王公大臣，与会代表共216名。担任这次会议主席的奥地利首相梅特涅。\n"/>
-    <ImageView
-        android:id="@+id/picture_detial"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/title_detial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="反法联盟各参加国在奥地利首都维也纳召开会议"
+            android:textColor="#000"
+            android:textSize="25sp"></TextView>
+
+        <TextView
+            android:id="@+id/content_detial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="在205年前的今天，1814年10月1日 (农历八月十八)，反法联盟各参加国在奥地利首都维也纳召开会议。\n1814年10月1日，反法联盟各参加国在奥地利首都维也纳召开会议，商讨处理战后事宜，会议到1815年6月9日结束。参加会议的有俄、普、奥三国皇帝以及各国首相和王公大臣，与会代表共216名。担任这次会议主席的奥地利首相梅特涅。\n"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/picture_detial"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center" />
     </LinearLayout>
 </ScrollView>

@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <include
         android:id="@+id/history_layout"
         layout="@layout/history_layout"
-        android:visibility="visible"/>
+        android:visibility="visible" />
+
     <include
         android:id="@+id/book_layout"
         layout="@layout/book_layout"
@@ -18,10 +20,11 @@
         android:id="@+id/jock_layout"
         layout="@layout/jock_layout"
         android:visibility="gone" />
+
     <include
         android:id="@+id/chat_layout"
         layout="@layout/chat_layout"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
     <android.support.design.widget.NavigationView
@@ -29,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu">
 
     </android.support.design.widget.NavigationView>

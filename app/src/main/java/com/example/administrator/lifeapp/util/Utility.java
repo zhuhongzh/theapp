@@ -3,6 +3,8 @@ package com.example.administrator.lifeapp.util;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.administrator.lifeapp.db.CalendarChinese;
+import com.example.administrator.lifeapp.db.Constellation;
 import com.example.administrator.lifeapp.db.History;
 import com.example.administrator.lifeapp.db.HistoryDetial;
 import com.example.administrator.lifeapp.db.Idiom;
@@ -15,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Utility {
     public static List<Jock> handleJocks(String response) {
@@ -22,16 +25,24 @@ public class Utility {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                JSONArray allJockes = jsonObject.getJSONArray("result");
-                for (int i = 0; i < allJockes.length(); i++) {
-                    JSONObject object = allJockes.getJSONObject(i);
-                    Jock jock = new Jock();
-                    jock.setTitle(i + 1 + "");
-                    jock.setContent(object.getString("content"));
-                    jockList.add(jock);
-                    jock.save();
+                if(jsonObject.getString("reason").equals("success")){
+                    JSONArray allJockes = jsonObject.getJSONArray("result");
+                    for (int i = 0; i < allJockes.length(); i++) {
+                        JSONObject object = allJockes.getJSONObject(i);
+                        Jock jock = new Jock();
+                        jock.setTitle(i + 1 + "");
+                        jock.setContent(object.getString("content"));
+                        jockList.add(jock);
+                        jock.save();
+                    }
+                    return jockList;
                 }
-                return jockList;
+                else {
+                    Jock jock = new Jock();
+                    jock.setTitle("无");
+                    jockList.add(jock);
+                    return jockList;
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -91,20 +102,28 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray array = jsonObject.getJSONArray("result");
             List<History> historyList = new ArrayList<>();
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
+            if(jsonObject.getString("reason").equals("请求成功！")){
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    History history = new History();
+                    history.setId(object.getString("_id"));
+                    history.setTitle(object.getString("title"));
+                    history.setLunar(object.getString("lunar"));
+                    history.setContent(object.getString("des"));
+                    history.setDay(object.getInt("day"));
+                    history.setMonth(object.getInt("month"));
+                    history.setYear(object.getInt("year"));
+                    history.setPicture(object.getString("pic"));
+                    historyList.add(history);
+                    history.save();
+                }
+                return historyList;
+            }else {
                 History history = new History();
-                history.setId(object.getString("_id"));
-                history.setTitle(object.getString("title"));
-                history.setLunar(object.getString("lunar"));
-                history.setContent(object.getString("des"));
-                history.setDay(object.getInt("day"));
-                history.setMonth(object.getInt("month"));
-                history.setYear(object.getInt("year"));
-                history.setPicture(object.getString("pic"));
+                history.setId("0");
                 historyList.add(history);
+                return historyList;
             }
-            return historyList;
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -128,11 +147,69 @@ public class Utility {
     public static Msg handleMsg(String response){
         try{
             JSONObject jsonObject = new JSONObject(response);
-            JSONObject object = jsonObject.getJSONObject("result");
             Msg msg = new Msg();
-            msg.setContent(object.getString("content"));
-            msg.setType(Msg.TYPE_RECEIVED);
+            List<Msg> msgs = new ArrayList<>();
+            if(jsonObject.getString("status").equals("104")){
+                msgs.add(new Msg("啊，主人，我今天身体不适，不能和您正常聊天呀了！",Msg.TYPE_RECEIVED));
+                msgs.add(new Msg("主人，我没时间了,今天不说话好吗？",Msg.TYPE_RECEIVED));
+                msgs.add(new Msg("先生您贵姓，我现在脑子不清楚，我们改日再聊好吗？",Msg.TYPE_RECEIVED));
+                msgs.add(new Msg("求求主人了，我们明天再聊好吗",Msg.TYPE_RECEIVED));
+                int random = new Random().nextInt(4);
+                msg = msgs.get(random);
+            }else {
+                JSONObject object = jsonObject.getJSONObject("result");
+                msg.setContent(object.getString("content"));
+                msg.setType(Msg.TYPE_RECEIVED);
+            }
             return msg;
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static CalendarChinese handleCalendar(String response){
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            if(jsonObject.getString("reason").equals("Success")){
+                JSONObject object = jsonObject.getJSONObject("result");
+                JSONObject object1 = object.getJSONObject("data");
+                CalendarChinese calendar = new CalendarChinese();
+                calendar.setAvoid(object1.getString("avoid"));
+                calendar.setSuit(object1.getString("suit"));
+                calendar.setDate(object1.getString("date"));
+                calendar.setLunar(object1.getString("lunar"));
+                calendar.setLunarYear(object1.getString("lunarYear"));
+                calendar.setWeekday(object1.getString("weekday"));
+                calendar.setYear(object1.getString("animalsYear"));
+                return calendar;
+            }else {
+                CalendarChinese calendarChinese = new CalendarChinese();
+                calendarChinese.setAvoid("无");
+                return calendarChinese;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static Constellation handleConstellation(String response){
+        try{
+            JSONObject object = new JSONObject(response);
+            Constellation constellation = new Constellation();
+            if(object.getInt("error_code") == 0){
+                constellation.setAll(object.getString("all"));
+                constellation.setHealth(object.getString("health"));
+                constellation.setLove(object.getString("love"));
+                constellation.setMoney(object.getString("money"));
+                constellation.setWork(object.getString("work"));
+                constellation.setColor(object.getString("color"));
+                constellation.setNumber(object.getInt("number"));
+                constellation.setQFriend(object.getString("QFriend"));
+                constellation.setSummary(object.getString("summary"));
+            }else {
+                constellation.setAll("无");
+            }
+            return constellation;
         }catch (JSONException e){
             e.printStackTrace();
         }

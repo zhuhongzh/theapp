@@ -1,12 +1,14 @@
 package com.example.administrator.lifeapp.db;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
-public class Idiom {
+public class Idiom extends DataSupport {
     private String idiom;
     private String chinesePhoneticize;
     private String grammar;
-    private String from;
+    private String idiomFrom;
     private String explain;
     private String example;
     private String reason;
@@ -46,11 +48,11 @@ public class Idiom {
     }
 
     public String getFrom() {
-        return from;
+        return idiomFrom;
     }
 
     public void setFrom(String from) {
-        this.from = from;
+        this.idiomFrom = from;
     }
 
     public String getExplain() {

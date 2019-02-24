@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="jock" />
-    <version value="1" />
+    <version value="4" />
     <list>
         <mapping class="com.example.administrator.lifeapp.db.Msg"/>
         <mapping class="com.example.administrator.lifeapp.db.Jock"/>
+        <mapping class="com.example.administrator.lifeapp.db.History"/>
+        <mapping class="com.example.administrator.lifeapp.db.HistoryDetial"/>
+        <mapping class="com.example.administrator.lifeapp.db.Idiom"/>
     </list>
 </litepal>

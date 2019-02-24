@@ -1,20 +1,22 @@
-package com.example.administrator.lifeapp;
+package com.example.administrator.lifeapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.administrator.lifeapp.InformationActivity;
+import com.example.administrator.lifeapp.R;
 import com.example.administrator.lifeapp.db.History;
+import com.example.administrator.lifeapp.db.HistoryDetial;
 import com.example.administrator.lifeapp.util.HttpUtil;
+
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.List;
@@ -61,8 +63,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         historyInformation = response.body().string();
-                        Intent intent = new Intent(context,InformationActivity.class);
-                        intent.putExtra("data",historyInformation);
+                        Intent intent = new Intent(context, InformationActivity.class);
+                        intent.putExtra("data", historyInformation);
                         context.startActivity(intent);
                     }
                 });
@@ -81,6 +83,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         TextView content;
         TextView lunar;
         ImageView picture;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.txt_title);

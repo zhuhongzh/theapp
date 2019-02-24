@@ -6,7 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/jockbackground">
 
         <TextView
             android:id="@+id/title"
@@ -14,7 +15,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="笑话大全"
-            android:textSize="25dp" />
+            android:textSize="40sp"
+            android:background="@drawable/jock"
+            android:textColor="#fff"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

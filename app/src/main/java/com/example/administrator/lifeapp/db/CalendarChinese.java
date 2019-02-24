@@ -1,6 +1,6 @@
 package com.example.administrator.lifeapp.db;
 
-public class Calendar {
+public class CalendarChinese {
     private String avoid;
     private String suit;
     private String weekday;

@@ -1,6 +1,8 @@
 package com.example.administrator.lifeapp.db;
 
-public class Msg {
+import org.litepal.crud.DataSupport;
+
+public class Msg extends DataSupport {
     public static final int TYPE_RECEIVED = 0;
     public static final int TYPE_SENT = 1;
     private String content;
@@ -20,5 +22,13 @@ public class Msg {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public Msg(String content, int type) {
+        this.content = content;
+        this.type = type;
+    }
+
+    public Msg() {
     }
 }

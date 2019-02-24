@@ -1,22 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:padding="10dp"
-    android:background="?attr/colorPrimary">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/book" />
+    android:layout_height="420dp"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
+    android:padding="10dp">
+
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="服务生活"
         android:layout_centerInParent="true"
-        android:textSize="40dp"
-        android:textColor="@color/colorWhite"/>
+        android:text="服务生活"
+        android:textColor="@color/colorWhite"
+        android:textSize="40dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/header_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="猪年大吉        "
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/header_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019-2        星期三"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/header_lunar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="己亥年正月十六"
+        android:textColor="@color/colorWhite" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/header_suit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今日宜：祭祀.沐浴.开光.塑绘.祈福.求嗣.订盟.纳采.冠笄.裁衣.嫁娶.动土.除服.成服.移柩.破土.启攒.出行.安碓硙.放水.开市.立券.交易."
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/header_avoid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今日不宜：安葬.上梁.入宅.作灶."
+        android:textColor="@color/colorWhite" />
+
+    <Spinner
+        android:id="@+id/header_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:background="@drawable/shape_spinner_drop_down"
+        android:entries="@array/spingarr"></Spinner>
+    <TextView
+        android:id="@+id/header_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="综合指数：40%"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/header_health"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="健康指数：70%"/>
+        <TextView
+            android:id="@+id/header_money"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="财运指数：70%"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/header_love"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="爱情指数：70%"/>
+        <TextView
+            android:id="@+id/header_work"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="工作指数：70%"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/header_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="幸运数字：8"/>
+        <TextView
+            android:id="@+id/header_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="幸运颜色：古铜色"/>
+        <TextView
+            android:id="@+id/header_QFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="速配星座：处女座"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/header_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今日概述：今天的白羊座工作易感劳累，但是坚持下来便会有收获，能发现乐趣所在，也会好心肠的帮同事的忙。另一半与家庭事务方面有事情需要你处理，多是生活环境方面的。"/>
+</LinearLayout>

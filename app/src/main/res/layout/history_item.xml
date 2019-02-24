@@ -2,22 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/a">
 
     <TextView
+        android:paddingHorizontal="45dp"
         android:id="@+id/txt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="反法联盟各参加国在奥地利首都维也纳召开会议"
-        android:textSize="25sp" />
+        android:textSize="20dp"
+        android:paddingTop="25dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:paddingLeft="65dp"
             android:id="@+id/txt_date"
-            android:layout_width="100dp"
+            android:layout_width="195dp"
             android:layout_height="wrap_content"
             android:text="1814-10-1" />
         <TextView
@@ -27,12 +31,9 @@
             android:text="甲戌年八月十八"/>
     </LinearLayout>
     <TextView
+        android:paddingHorizontal="65dp"
         android:id="@+id/txt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="在205年前的今天，1814年10月1日 (农历八月十八)，反法联盟各参加国在奥地利首都维也纳召开会议。" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000"/>
 </LinearLayout>

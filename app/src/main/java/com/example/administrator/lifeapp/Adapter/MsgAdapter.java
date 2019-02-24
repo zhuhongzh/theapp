@@ -1,4 +1,4 @@
-package com.example.administrator.lifeapp;
+package com.example.administrator.lifeapp.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.lifeapp.R;
 import com.example.administrator.lifeapp.db.Msg;
 
 import java.util.List;

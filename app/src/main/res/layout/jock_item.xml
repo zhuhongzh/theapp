@@ -9,6 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        android:text="566566565"
-        android:textSize="25dp"/>
+        android:textSize="20dp"
+        android:background="@drawable/c"/>
 </LinearLayout>
