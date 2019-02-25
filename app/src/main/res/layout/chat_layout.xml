@@ -11,12 +11,27 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:navigationIcon="@drawable/chat">
-        <TextView
-            android:text="小智正在为您服务......"
-            android:textColor="#fff"
-            android:textSize="18sp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="小i正在为您服务......"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/content_btn"
+                android:text="消息记录"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"/>
+        </LinearLayout>
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_recyclerview"

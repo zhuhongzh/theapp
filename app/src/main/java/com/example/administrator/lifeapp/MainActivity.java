@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call call, Response response) throws IOException {
                         String responseText = response.body().string();
                         final Constellation constellation = Utility.handleConstellation(responseText);
-                        if(constellation.getAll().equals("无")){
+                        if (constellation.getAll().equals("无")) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                                     summary.setText("今日概述：" + "暂无法查询");
                                 }
                             });
-                        }else {
+                        } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -274,20 +274,28 @@ public class MainActivity extends AppCompatActivity {
         edtInput = chatLayout.findViewById(R.id.input_edt);
         sendBtn = chatLayout.findViewById(R.id.send_btn);
         chatContent = chatLayout.findViewById(R.id.chat_recyclerview);
-        android.support.v7.widget.Toolbar toolbar = chatLayout.findViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, ChatContent.class);
-                    startActivity(intent);
-                }
-            });
-        }
+        Button contentBtn = findViewById(R.id.content_btn);
+        contentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChatContent.class);
+                startActivity(intent);
+            }
+        });
+//        android.support.v7.widget.Toolbar toolbar = chatLayout.findViewById(R.id.toolbar);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(MainActivity.this, ChatContent.class);
+//                    startActivity(intent);
+//                }
+//            });
+//        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         Msg msg = new Msg();
         msg.setType(Msg.TYPE_RECEIVED);
-        msg.setContent("您好，我是小智，很荣幸为您服务");
+        msg.setContent("您好，我是小i，很荣幸为您服务");
         msgList.add(msg);
         msgAdapter = new MsgAdapter(msgList);
         chatContent.setLayoutManager(layoutManager);
@@ -355,7 +363,9 @@ public class MainActivity extends AppCompatActivity {
         HttpUtil.sendOkHttpRequest(address3, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Looper.prepare();
                 Toast.makeText(MainActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
 
             @Override
@@ -466,8 +476,8 @@ public class MainActivity extends AppCompatActivity {
                             result = false;
                         }
                     }
-                        if (result == true) {
-                            sendBook();
+                    if (result == true) {
+                        sendBook();
 
                     }
                 } else {
@@ -564,8 +574,9 @@ public class MainActivity extends AppCompatActivity {
                         if (jocks.get(0).getTitle() == "无") {
                             jocks = DataSupport.findAll(Jock.class);
                             for (int i = 0; i < 10; i++) {
-                                int random = new Random().nextInt(jocks.size());
+                                int random = new Random().nextInt(10000);
                                 Log.d("123456", random + "");
+                                Log.d("123456", jocks.size() + "");
                                 jockList.add(jocks.get(random));
                             }
                         } else {
