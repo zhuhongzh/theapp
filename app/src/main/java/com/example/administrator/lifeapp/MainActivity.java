@@ -16,10 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Selection;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,7 +62,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * 更新内容
+ * 更新内容2
  */
 public class MainActivity extends AppCompatActivity {
     private NavigationView naView;
@@ -66,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
     private List<String> thereNo = new ArrayList<>();
     private List<Jock> jocks;
 
-    private List<History> historyList = new ArrayList<>();
+    private List<History> todayHistory = new ArrayList<>();
     private List<History> histories;
+    private List<History> historyList;
 
     private String address = "http://v.juhe.cn/joke/randJoke.php?key=8899f9b377d33409cc548e1f06a45fb4";
     private String address2 = "http://v.juhe.cn/chengyu/query?key=67bdce5b4e868dea8a3a5dde475d76bb&word=";
@@ -104,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout headerLayout;
     private List<String> listconstellation = new ArrayList<>(Arrays.asList("白羊座", "金牛座", "双子座",
             "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"));
+    private List<Constellation> constellationAll;
+    private List<CalendarChinese> calendarChineseAll;
+
+    private int year;
+    private int month;
+    private int day;
 
     @SuppressLint("ResourceType")
     @Override
@@ -115,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
         bookLayout = findViewById(R.id.book_layout);
         historyLayout = findViewById(R.id.history_layout);
         chatLayout = findViewById(R.id.chat_layout);
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         initJock();
         initbook();
         initHistory();
@@ -175,99 +190,145 @@ public class MainActivity extends AppCompatActivity {
         final TextView love = headerLayout.findViewById(R.id.header_love);
         final TextView summary = headerLayout.findViewById(R.id.header_summary);
         Spinner spinner = headerLayout.findViewById(R.id.header_spinner);
+        constellationAll = DataSupport.findAll(Constellation.class);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                final Constellation constellation0;
+                boolean result = true;
                 final String con = listconstellation.get(position);
-                String address = "http://web.juhe.cn:8080/constellation/getAll?consName=" + con + "&type=today&key=40a9c0716a1f44e625edf0d28314da55";
-                HttpUtil.sendOkHttpRequest(address, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
+                for (int i = 0; i < constellationAll.size(); i++) {
+                    if (con.equals(constellationAll.get(i).getName()) && constellationAll.get(i).getDate().equals(year + "-" + month + "-" + day)) {
+                        constellation0 = constellationAll.get(i);
+                        result = false;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                all.setText("综合指数：" + constellation0.getAll());
+                                health.setText("健康指数：" + constellation0.getHealth());
+                                money.setText("财运指数：" + constellation0.getMoney());
+                                love.setText("爱情指数：" + constellation0.getLove());
+                                work.setText("工作指数：" + constellation0.getWork());
+                                number.setText("幸运数字：" + constellation0.getNumber() + "");
+                                color.setText("幸运颜色：" + constellation0.getColor());
+                                QFriend.setText("速配星座：" + constellation0.getQFriend());
+                                summary.setText("今日概述：" + constellation0.getSummary());
+                            }
+                        });
+                        break;
                     }
+                }
+                if (result == true) {
+                    String address = "http://web.juhe.cn:8080/constellation/getAll?consName=" + con + "&type=today&key=40a9c0716a1f44e625edf0d28314da55";
+                    HttpUtil.sendOkHttpRequest(address, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String responseText = response.body().string();
-                        final Constellation constellation = Utility.handleConstellation(responseText);
-                        if (constellation.getAll().equals("无")) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    all.setText("综合指数：" + "暂无法查询");
-                                    health.setText("健康指数：" + "暂无法查询");
-                                    money.setText("财运指数：" + "暂无法查询");
-                                    love.setText("爱情指数：" + "暂无法查询");
-                                    work.setText("工作指数：" + "暂无法查询");
-                                    number.setText("幸运数字：" + "暂无法查询");
-                                    color.setText("幸运颜色：" + "暂无法查询");
-                                    QFriend.setText("速配星座：" + "暂无法查询");
-                                    summary.setText("今日概述：" + "暂无法查询");
-                                }
-                            });
-                        } else {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    all.setText("综合指数：" + constellation.getAll());
-                                    health.setText("健康指数：" + constellation.getHealth());
-                                    money.setText("财运指数：" + constellation.getMoney());
-                                    love.setText("爱情指数：" + constellation.getLove());
-                                    work.setText("工作指数：" + constellation.getWork());
-                                    number.setText("幸运数字：" + constellation.getNumber() + "");
-                                    color.setText("幸运颜色：" + constellation.getColor());
-                                    QFriend.setText("速配星座：" + constellation.getQFriend());
-                                    summary.setText("今日概述：" + constellation.getSummary());
-                                }
-                            });
                         }
-                    }
-                });
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String responseText = response.body().string();
+                            final Constellation constellation1 = Utility.handleConstellation(responseText);
+                            constellation1.setName(listconstellation.get(position));
+                            constellation1.setDate(year + "-" + month + "-" + day);
+                            constellation1.save();
+                            if (constellation1.getAll().equals("无")) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        all.setText("综合指数：" + "暂无法查询");
+                                        health.setText("健康指数：" + "暂无法查询");
+                                        money.setText("财运指数：" + "暂无法查询");
+                                        love.setText("爱情指数：" + "暂无法查询");
+                                        work.setText("工作指数：" + "暂无法查询");
+                                        number.setText("幸运数字：" + "暂无法查询");
+                                        color.setText("幸运颜色：" + "暂无法查询");
+                                        QFriend.setText("速配星座：" + "暂无法查询");
+                                        summary.setText("今日概述：" + "暂无法查询");
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        all.setText("综合指数：" + constellation1.getAll());
+                                        health.setText("健康指数：" + constellation1.getHealth());
+                                        money.setText("财运指数：" + constellation1.getMoney());
+                                        love.setText("爱情指数：" + constellation1.getLove());
+                                        work.setText("工作指数：" + constellation1.getWork());
+                                        number.setText("幸运数字：" + constellation1.getNumber() + "");
+                                        color.setText("幸运颜色：" + constellation1.getColor());
+                                        QFriend.setText("速配星座：" + constellation1.getQFriend());
+                                        summary.setText("今日概述：" + constellation1.getSummary());
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String address = "http://v.juhe.cn/calendar/day?date=" + year + "-" + month + "-" + day + "&key=ed5c43068b922b29d206ec79fea2a99a";
-        HttpUtil.sendOkHttpRequest(address, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+        boolean reason = false;
+        calendarChineseAll = DataSupport.findAll(CalendarChinese.class);
+        for (int i = 0; i < calendarChineseAll.size(); i++) {
+            if (calendarChineseAll.get(i).getDate().equals(year + "-" + month + "-" + day)) {
+                final CalendarChinese calendarChinese = calendarChineseAll.get(i);
+                reason = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        yeart.setText(calendarChinese.getYear() + "年大吉      ");
+                        lunar.setText(calendarChinese.getLunarYear() + calendarChinese.getLunar());
+                        date.setText(calendarChinese.getDate() + "      " + calendarChinese.getWeekday());
+                        avoid.setText("今日宜：" + calendarChinese.getSuit());
+                        suit.setText("今日不宜：" + calendarChinese.getAvoid());
+                    }
+                });
+                break;
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseText = response.body().string();
-                final CalendarChinese calendarChinese = Utility.handleCalendar(responseText);
-                if (calendarChinese.getAvoid().equals("无")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            yeart.setText("");
-                            lunar.setText("");
-                            date.setText("");
-                            avoid.setText("");
-                            suit.setText("");
-                        }
-                    });
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            yeart.setText(calendarChinese.getYear() + "年大吉      ");
-                            lunar.setText(calendarChinese.getLunarYear() + calendarChinese.getLunar());
-                            date.setText(calendarChinese.getDate() + "        " + calendarChinese.getWeekday());
-                            avoid.setText("今日宜：" + calendarChinese.getSuit());
-                            suit.setText("今日不宜：" + calendarChinese.getAvoid());
-                        }
-                    });
+        }
+        if (reason == false) {
+            String address = "http://v.juhe.cn/calendar/day?date=" + year + "-" + month + "-" + day + "&key=ed5c43068b922b29d206ec79fea2a99a";
+            HttpUtil.sendOkHttpRequest(address, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseText = response.body().string();
+                    final CalendarChinese calendarChinese = Utility.handleCalendar(responseText);
+                    if (calendarChinese.getAvoid().equals("无")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                yeart.setText("");
+                                lunar.setText("");
+                                date.setText("");
+                                avoid.setText("");
+                                suit.setText("");
+                            }
+                        });
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                yeart.setText(calendarChinese.getYear() + "年大吉      ");
+                                lunar.setText(calendarChinese.getLunarYear() + calendarChinese.getLunar());
+                                date.setText(calendarChinese.getDate() + "        " + calendarChinese.getWeekday());
+                                avoid.setText("今日宜：" + calendarChinese.getSuit());
+                                suit.setText("今日不宜：" + calendarChinese.getAvoid());
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
     private void inintChat() {
@@ -313,33 +374,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendChat() {
-        Msg msg = new Msg();
+        final Msg msg = new Msg();
         msg.setType(Msg.TYPE_SENT);
         msg.setContent(edtInput.getText().toString());
-        msgList.add(msg);
-        msg.save();
         String address = adress4 + edtInput.getText().toString();
         Log.d("123456", edtInput.getText().toString());
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
+                Looper.prepare();
+                Toast.makeText(MainActivity.this, "您的网络未连接，无法查询，请尽快连接网络", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseText = response.body().string();
                 Msg msg1 = Utility.handleMsg(responseText);
+                msgList.add(msg);
+                msg.save();
                 msg1.save();
                 msgList.add(msg1);
-            }
-        });
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                msgAdapter.notifyDataSetChanged();
-                chatContent.scrollToPosition(msgList.size() - 1);
-                edtInput.setText("");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        msgAdapter.notifyDataSetChanged();
+                        chatContent.scrollToPosition(msgList.size() - 1);
+                        edtInput.setText("");
+                    }
+                });
             }
         });
     }
@@ -347,12 +410,9 @@ public class MainActivity extends AppCompatActivity {
     private void initHistory() {
         txtToday = findViewById(R.id.txt_today);
         txtToday.setTypeface(Typeface.createFromAsset(getAssets(), "font/hwxk.ttf"));
-        Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
         address3 = "http://api.juheapi.com/japi/toh?key=dee300bf3ba4fd4ffbc64af72c228150&v=1.0&month=" + month + "&day=" + day;
         final RecyclerView recyclerView = historyLayout.findViewById(R.id.history_recyclerview);
-        historyAdapter = new HistoryAdapter(historyList);
+        historyAdapter = new HistoryAdapter(todayHistory);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(historyAdapter);
@@ -360,45 +420,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendHistory() {
-        HttpUtil.sendOkHttpRequest(address3, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Looper.prepare();
-                Toast.makeText(MainActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
-                Looper.loop();
+        historyList = DataSupport.findAll(History.class);
+        todayHistory.clear();
+        boolean reason = false;
+        for (int i = 0; i < historyList.size(); i++) {
+            if ((historyList.get(i).getMonth() + "-" + historyList.get(i).getDay()).equals(month + "-" + day)) {
+                todayHistory.add(historyList.get(i));
+                reason = true;
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseText = response.body().string();
-                histories = Utility.handleHistory(responseText);
-                if (histories.get(0).getId().equals("0")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            histories = DataSupport.findAll(History.class);
-                            historyList.clear();
-                            for (int i = 0; i < 20; i++) {
-                                historyList.add(histories.get(i));
-                            }
-                            historyAdapter.notifyDataSetChanged();
-                            txtToday.setText("峥嵘岁月");
-                        }
-                    });
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            historyList.clear();
-                            for (int i = 0; i < histories.size(); i++) {
-                                historyList.add(histories.get(i));
-                            }
-                            historyAdapter.notifyDataSetChanged();
-                        }
-                    });
+        }
+        if (reason == true) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    historyAdapter.notifyDataSetChanged();
                 }
-            }
-        });
+            });
+        }
+        if (reason == false) {
+            HttpUtil.sendOkHttpRequest(address3, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Looper.prepare();
+                    Toast.makeText(MainActivity.this, "您的网络未连接，无法查询，请尽快连接网络", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseText = response.body().string();
+                    histories = Utility.handleHistory(responseText);
+                    if (histories.get(0).getId().equals("0")) {
+                        if (historyList.size() != 0) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    histories = DataSupport.findAll(History.class);
+                                    todayHistory.clear();
+                                    for (int i = 0; i < 20; i++) {
+                                        todayHistory.add(histories.get(i));
+                                    }
+                                    historyAdapter.notifyDataSetChanged();
+                                    txtToday.setText("峥嵘岁月");
+                                }
+                            });
+                        }
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                todayHistory.clear();
+                                for (int i = 0; i < histories.size(); i++) {
+                                    todayHistory.add(histories.get(i));
+                                }
+                                historyAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
     private void initJock() {
@@ -423,65 +504,72 @@ public class MainActivity extends AppCompatActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Animation animation = new AlphaAnimation(1.0f, 0.0f);
+//                animation.setDuration(300);
+//                Animation animation;
+//                animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.my_anim);
+//                find.startAnimation(animation);
                 boolean result = true;
                 String content = editText.getText().toString();
-                char[] contentChar = content.toCharArray();
-                for (int i = 0; i < contentChar.length; i++) {
-                    if (!isChinese(contentChar[i])) {
-                        result = false;
-                        break;
-                    }
-                }
-
-                if (result == true) {
-                    List<Idiom> idiomList = DataSupport.findAll(Idiom.class);
-                    for (int i = 0; i < idiomList.size(); i++) {
-                        final Idiom idiom2 = idiomList.get(i);
-                        if (editText.getText().toString().equals(idiom2.getIdiom())) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    txtChinese.setText(idiom2.getIdiom());
-                                    txtPinyin.setText(idiom2.getChinesePhoneticize());
-                                    txtFrom.setText(idiom2.getFrom());
-                                    txtGrammer.setText((idiom2.getGrammar()));
-                                    txtExample.setText(idiom2.getExample());
-                                    txtExplain.setText(idiom2.getExplain());
-                                    if (idiom2.getAntonyms() != null) {
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                                (MainActivity.this, android.R.layout.simple_list_item_1, idiom.getAntonyms());
-                                        adapter.notifyDataSetChanged();
-                                        listViewAntonyms.setAdapter(adapter);
-                                    }
-                                    if (idiom2.getAntonyms() == null) {
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                                (MainActivity.this, android.R.layout.simple_list_item_1, thereNo);
-                                        adapter.notifyDataSetChanged();
-                                        listViewAntonyms.setAdapter(adapter);
-                                    }
-                                    if (idiom2.getSynonyms() != null) {
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                                (MainActivity.this, android.R.layout.simple_list_item_1, idiom.getSynonyms());
-                                        adapter.notifyDataSetChanged();
-                                        listViewSynonyms.setAdapter(adapter);
-                                    }
-                                    if (idiom2.getSynonyms() == null) {
-                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                                (MainActivity.this, android.R.layout.simple_list_item_1, thereNo);
-                                        adapter.notifyDataSetChanged();
-                                        listViewSynonyms.setAdapter(adapter);
-                                    }
-                                }
-                            });
+                if (content.equals("")) {
+                    Toast.makeText(MainActivity.this, "请输入您要查询的成语", Toast.LENGTH_SHORT).show();
+                } else {
+                    char[] contentChar = content.toCharArray();
+                    for (int i = 0; i < contentChar.length; i++) {
+                        if (!isChinese(contentChar[i])) {
                             result = false;
+                            break;
                         }
                     }
                     if (result == true) {
-                        sendBook();
-
+                        List<Idiom> idiomList = DataSupport.findAll(Idiom.class);
+                        for (int i = 0; i < idiomList.size(); i++) {
+                            final Idiom idiom2 = idiomList.get(i);
+                            if (editText.getText().toString().equals(idiom2.getIdiom())) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        txtChinese.setText(idiom2.getIdiom());
+                                        txtPinyin.setText(idiom2.getChinesePhoneticize());
+                                        txtFrom.setText(idiom2.getFrom());
+                                        txtGrammer.setText((idiom2.getGrammar()));
+                                        txtExample.setText(idiom2.getExample());
+                                        txtExplain.setText(idiom2.getExplain());
+                                        if (idiom2.getAntonyms() != null) {
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                                    (MainActivity.this, android.R.layout.simple_list_item_1, idiom.getAntonyms());
+                                            adapter.notifyDataSetChanged();
+                                            listViewAntonyms.setAdapter(adapter);
+                                        }
+                                        if (idiom2.getAntonyms() == null) {
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                                    (MainActivity.this, android.R.layout.simple_list_item_1, thereNo);
+                                            adapter.notifyDataSetChanged();
+                                            listViewAntonyms.setAdapter(adapter);
+                                        }
+                                        if (idiom2.getSynonyms() != null) {
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                                    (MainActivity.this, android.R.layout.simple_list_item_1, idiom.getSynonyms());
+                                            adapter.notifyDataSetChanged();
+                                            listViewSynonyms.setAdapter(adapter);
+                                        }
+                                        if (idiom2.getSynonyms() == null) {
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                                    (MainActivity.this, android.R.layout.simple_list_item_1, thereNo);
+                                            adapter.notifyDataSetChanged();
+                                            listViewSynonyms.setAdapter(adapter);
+                                        }
+                                    }
+                                });
+                                result = false;
+                            }
+                        }
+                        if (result == true) {
+                            sendBook();
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "您输入的不是成语，查询失败", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity.this, "您输入的不是成语，查询失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -501,7 +589,9 @@ public class MainActivity extends AppCompatActivity {
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
+                Looper.prepare();
+                Toast.makeText(MainActivity.this, "您的网络未连接，无法查询，请尽快连接网络", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
 
             @Override
@@ -560,7 +650,9 @@ public class MainActivity extends AppCompatActivity {
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
+                Looper.prepare();
+                Toast.makeText(MainActivity.this, "您的网络未连接，无法查询，请尽快连接网络", Toast.LENGTH_SHORT).show();
+                Looper.loop();
             }
 
             @Override
@@ -575,8 +667,6 @@ public class MainActivity extends AppCompatActivity {
                             jocks = DataSupport.findAll(Jock.class);
                             for (int i = 0; i < 10; i++) {
                                 int random = new Random().nextInt(10000);
-                                Log.d("123456", random + "");
-                                Log.d("123456", jocks.size() + "");
                                 jockList.add(jocks.get(random));
                             }
                         } else {

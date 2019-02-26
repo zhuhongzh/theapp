@@ -29,9 +29,9 @@
             android:id="@+id/header_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2019-2        星期三"
+            android:text="2019-2     星期三"
             android:textColor="@color/colorWhite"
-            android:textSize="18dp" />
+            android:textSize="17dp" />
     </LinearLayout>
     <TextView
         android:id="@+id/header_lunar"

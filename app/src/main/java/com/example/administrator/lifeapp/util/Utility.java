@@ -132,13 +132,21 @@ public class Utility {
     public static HistoryDetial handleHistoryDetial(String response){
         try{
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray array = jsonObject.getJSONArray("result");
-            JSONObject object = array.getJSONObject(0);
-            HistoryDetial historyDetial = new HistoryDetial();
-            historyDetial.setTitle(object.getString("title"));
-            historyDetial.setContent(object.getString("content"));
-            historyDetial.setPicture(object.getString("pic"));
-            return historyDetial;
+            if(jsonObject.getString("reason").equals("请求成功！")){
+                JSONArray array = jsonObject.getJSONArray("result");
+                JSONObject object = array.getJSONObject(0);
+                HistoryDetial historyDetial = new HistoryDetial();
+                historyDetial.setTitle(object.getString("title"));
+                historyDetial.setContent(object.getString("content"));
+                historyDetial.setPicture(object.getString("pic"));
+                return historyDetial;
+            }else {
+                HistoryDetial historyDetial = new HistoryDetial();
+                historyDetial.setTitle("暂无具体消息");
+                historyDetial.setContent("无");
+                historyDetial.setPicture("");
+                return historyDetial;
+            }
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -181,6 +189,7 @@ public class Utility {
                 calendar.setLunarYear(object1.getString("lunarYear"));
                 calendar.setWeekday(object1.getString("weekday"));
                 calendar.setYear(object1.getString("animalsYear"));
+                calendar.save();
                 return calendar;
             }else {
                 CalendarChinese calendarChinese = new CalendarChinese();

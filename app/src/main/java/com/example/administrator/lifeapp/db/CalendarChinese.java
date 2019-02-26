@@ -1,6 +1,8 @@
 package com.example.administrator.lifeapp.db;
 
-public class CalendarChinese {
+import org.litepal.crud.DataSupport;
+
+public class CalendarChinese extends DataSupport {
     private String avoid;
     private String suit;
     private String weekday;

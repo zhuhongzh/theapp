@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.administrator.lifeapp.Adapter.MsgAdapter;
 import com.example.administrator.lifeapp.db.Msg;
@@ -24,5 +26,12 @@ public class ChatContent extends AppCompatActivity {
         List<Msg> msgList = DataSupport.findAll(Msg.class);
         MsgAdapter msgAdapter = new MsgAdapter(msgList);
         recyclerView.setAdapter(msgAdapter);
+        Toolbar toolbar = findViewById(R.id.toolbar_chatcontent);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

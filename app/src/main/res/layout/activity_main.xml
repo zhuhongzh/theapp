@@ -5,28 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/history_layout"
+            layout="@layout/history_layout"
+            android:visibility="visible" />
 
-    <include
-        android:id="@+id/history_layout"
-        layout="@layout/history_layout"
-        android:visibility="visible" />
+        <include
+            android:id="@+id/book_layout"
+            layout="@layout/book_layout"
+            android:visibility="gone" />
 
-    <include
-        android:id="@+id/book_layout"
-        layout="@layout/book_layout"
-        android:visibility="gone" />
+        <include
+            android:id="@+id/jock_layout"
+            layout="@layout/jock_layout"
+            android:visibility="gone" />
 
-    <include
-        android:id="@+id/jock_layout"
-        layout="@layout/jock_layout"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/chat_layout"
-        layout="@layout/chat_layout"
-        android:visibility="gone" />
-
-
+        <include
+            android:id="@+id/chat_layout"
+            layout="@layout/chat_layout"
+            android:visibility="gone" />
+    </FrameLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"

@@ -1,7 +1,10 @@
 package com.example.administrator.lifeapp.db;
 
-public class Constellation {
-    private String all;
+import org.litepal.crud.DataSupport;
+
+public class Constellation extends DataSupport {
+    private String name;
+    private String allnumber;
     private String health;
     private String love;
     private String money;
@@ -10,14 +13,30 @@ public class Constellation {
     private String color;
     private String QFriend;
     private String summary;
+    private String date;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getAll() {
-        return all;
+        return allnumber;
     }
 
     public void setAll(String all) {
-        this.all = all;
+        this.allnumber = all;
     }
 
     public String getHealth() {
