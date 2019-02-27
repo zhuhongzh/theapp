@@ -8,7 +8,7 @@
 星座|成语查询
 无|智能机器人
 
-该app分为两个部分,左边是显示的当天的万年历和星座运势,和功能菜单
+该app分为两个部分,左边是显示的当天的万年历,时钟和星座运势,和功能菜单
 ![image](https://github.com/TangMingDan/theapp/blob/master/images/12.png)
 ![image](https://github.com/TangMingDan/theapp/blob/master/images/11.png)
 右边是每个功能的具体实现
